@@ -22,39 +22,42 @@ exports.getUsers = async (req, res) => {
 
 exports.createDevice = async (req, res) => {
     try {
-        const { userid, device_id, functionality_ids, route_name, route, config_id, config_name, config_value } = req.body;
+        const { userid, device_id, functionality_ids, route_names, routes, config_ids, config_names, config_values } = req.body;
 
         const newUser = await user.create({
             userid,
             device_ids: [device_id],
-        })
+        });
 
         await newUser.save();
 
         const newDevice = await device.create({
-            device_id: device_id,
-            //convert to array
-            functionalities_ids: [functionality_ids],
-            config_ids: [config_id],
+            device_id,
+            functionality_ids: [functionality_ids],
+            config_ids: [config_ids],
         });
 
         await newDevice.save();
 
-        const functionalityModel = await functionality.create({
-            functionality_id: [functionality_ids],
-            routeName: route_name,
-            route: route,
-        });
+        for (var i = 0; i < functionality_ids.length; i++) {
+            const functionalityModel = await functionality.create({
+                functionality_id: functionality_ids[i],
+                routeName: route_names[i],
+                route: routes[i],
+            });
 
-        await functionalityModel.save();
+            await functionalityModel.save();
+        }
 
-        const configModel = await config.create({
-            config_id: config_id,
-            config_name: config_name,
-            config_value: config_value,
-        });
+        for (var i = 0; i < config_ids.length; i++) {
+            const configModel = await config.create({
+                config_id: config_ids[i],
+                config_name: config_names[i],
+                config_value: config_values[i],
+            });
 
-        await configModel.save();
+            await configModel.save();
+        }
 
         res.status(201).json({
             success: true,
@@ -62,6 +65,7 @@ exports.createDevice = async (req, res) => {
         });
 
     } catch (err) {
+        throw err;
         res.status(500).json({
             success: false,
             message: err.message,
@@ -97,7 +101,6 @@ exports.addDevice = async (req, res) => {
         await newDevice.save();
 
         const functionalityModel = await functionality.create({
-
             functionality_id: functionality_ids,
             routeName: route_names,
             route: routes,
@@ -130,13 +133,14 @@ exports.getUserDevices = async (req, res) => {
     try {
         const userid = req.params.id;
 
-        const userDevices = await user.findOne({ userid }).populate("device_ids").populate("functionality_ids", "config_ids").exec();
+        const userDevices = await user.findOne({ userid }).populate("device_ids").populate("functionalities_ids", "config_ids").exec();
 
         res.status(200).json({
             success: true,
             data: userDevices,
         });
     } catch (err) {
+        throw err;
         res.status(500).json({
             success: false,
             message: err.message,
