@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
 //remote db
-const db = mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.MONGO_PASSWORD}@${process.env.DB_NAME}.wsirnke.mongodb.net/?retryWrites=true&w=majority`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+const db = mongoose.connect(process.env.MONGO_URI);
 
 const conn = mongoose.connection;
 
