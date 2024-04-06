@@ -1,12 +1,11 @@
 body{
-    background-color: rgb(197, 197, 197);
-    display: grid;
-    grid-template-columns:20% 80%;
+    background-color: rgb(27, 27, 27);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
     height: 100vh;
-    grid-template-rows: 100%;
-    margin: 0;
-    padding: 0;
-    color: black;
+    margin: 0px;
 }
 
 .material-symbols-outlined {
@@ -18,137 +17,14 @@ body{
 }
 
 
-.sideDraw{
-    background-color: rgb(238, 238, 238);
-
-    color: rgb(0, 0, 0);
-    grid-column: 1/2;
-    display: grid;
-    grid-template-rows: 40% 60%;
-    grid-template-columns: 100%;
-    border:1px solid rgb(232, 232, 232)
-    
-}
-.mainScreen{
-    background-color: rgb(197, 197, 197);
-    color: rgb(0, 0, 0);
-    grid-column: 2/3;
-    display: grid;
-    grid-template-rows: 7.7% 91%;
-    justify-content: center;
-    grid-template-columns: 100%;
-    justify-items: center;
-}
-
-.componentDrawer{
-    grid-row:1/2;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: .5fr 4fr;
-    box-shadow: 0px 4px 4px #2b2b2b38;
-    justify-content: center;
-    grid-template-columns: 100%;
-    justify-items: center;
-    
-}
-.componentProperties{
-    border-top: 2px solid rgb(159, 159, 159);
-    grid-row:2/3;
-}
-
-.componentDrawer>.header{
-    grid-row: 1/2;
-    background-color: white;
-    box-shadow: 0px 4px 4px #2b2b2b38;
+body>div{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    padding: 0 10px;
-    border-radius: 0px 0px 4px 4px;
+    justify-content: center;
     width: 90%;
+    height: 90%;
+    background-color: #282828;
+    border-radius: 24px;
 
-}
-
-.componentDrawer>.componentList{
-    margin-top: 12px;
-    grid-row: 2/3;
-    padding: 8px 0px;
-    height: calc(100% - 16px);
-    width: 100%;
-    display: flex;
-    overflow: scroll;
-    gap: 3px;
-    height: 100%;
-    background-color: rgb(238, 238, 238);
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-
-}
-
-.mainScreen>.header{
-    background-color: white;
-    box-shadow: 0px 4px 4px #2b2b2b38;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 10px;
-    width: 96%;
-    border-radius: 0px 0px 12px 12px;
-    grid-row: 1/2;
-}
-
-.component{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid rgb(232, 232, 232);
-    width: calc(95% - 20px );
-    border-radius: 4px;
-    cursor: pointer;
-    height: 20px;
-    align-content: center;
-    color: rgb(62, 62, 62);
-    background-color: rgb(255, 255, 255);
-    font-weight: 700;
-    user-select: none;
-    border: 2px solid rgb(209, 209, 209);
-}
-
-.component:hover{
-    color: rgb(42, 42, 42);
-    background-color: rgb(187, 187, 187);
-    border: 2px solid rgb(112, 112, 112);
-}
-
-.component>.icon{
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-}
-
-.canvas{
-    grid-row: 2/3;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.canvas>.screen{
-    width: 98%;
-    background-color: white;
-    border-radius: 8px;
-    height: 98%;
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 1fr);
-    overflow: hidden;
-}
-
-.placeBLXK{
-    background: red;
 }

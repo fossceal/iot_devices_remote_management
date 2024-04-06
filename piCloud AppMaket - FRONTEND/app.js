@@ -1,4 +1,4 @@
-HVHAuth = new auth("ad9sza4lsl1Idh6sosfreDr7ry######g6H62pd7o51il850")
+HVHAuth = new auth("ad9sza4lsl1Idh6sosfreDr7ryyakocvg6H62pd7o51il850")
 
 async function user(){
     let data = await this.HVHAuth.getUser()
