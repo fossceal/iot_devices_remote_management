@@ -1,0 +1,108 @@
+const axios = require('axios');
+const TelegramBot = require('node-telegram-bot-api');
+require('dotenv').config();
+
+// Replace 'YOUR_TELEGRAM_BOT_TOKEN' with your actual bot token
+const token = process.env.TELEGRAM_BOT_TOKEN;
+
+// Create a bot instance
+const bot = new TelegramBot(token, { polling: true });
+
+// Define the endpoint URLs
+const serverInfoEndpoint = 'https://server.govindsr.me/server-info';
+const ledOnEndpoint = 'https://esp.govindsr.me/ledoff';
+const ledOffEndpoint = 'https://esp.govindsr.me/ledon';
+
+
+// Function to fetch data from the API
+async function fetchData(url) {
+    try {
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return null;
+    }
+}
+
+// Function to send the fetched data to a chat
+async function sendServerInfo(chatId) {
+    const data = await fetchData(serverInfoEndpoint);
+    if (data) {
+        const message = `
+            Hostname: ${data.hostname}
+            Platform: ${data.platform}
+            Architecture: ${data.architecture}
+            Release: ${data.release}
+            OS: ${data.osName} ${data.osVersion}
+            Memory Total: ${data.memory.total} bytes
+            Memory Free: ${data.memory.free} bytes
+            Storage Total: ${data.storage.total} GB
+            Storage Available: ${data.storage.available} GB
+            Storage Percentage: ${data.storage.percentage}%
+            Server Time: ${data.serverTime}
+        `;
+        bot.sendMessage(chatId, message);
+    } else {
+        bot.sendMessage(chatId, 'Failed to fetch server info. Please try again later.');
+    }
+}
+
+// Function to turn off the LED
+async function turnOnLED(chatId) {
+    try {
+        await axios.get(ledOffEndpoint);
+        bot.sendMessage(chatId, 'LED turned off successfully.');
+    } catch (error) {
+        console.error('Error turning off LED:', error);
+        bot.sendMessage(chatId, 'Failed to turn off LED. Please try again later.');
+    }
+}
+async function turnOffLED(chatId) {
+    try {
+        await axios.get(ledOnEndpoint);
+        bot.sendMessage(chatId, 'LED turned On successfully.');
+    } catch (error) {
+        console.error('Error turning On LED:', error);
+        bot.sendMessage(chatId, 'Failed to turn On LED. Please try again later.');
+    }
+}
+// Create custom keyboards
+const menu = {
+    reply_markup: {
+        keyboard: [['/info'], ['LED ON'], ['LED OFF']], // Updated menu with LED ON button
+        resize_keyboard: true,
+        one_time_keyboard: false
+    }
+};
+
+// Listen for /start command to display the menu
+bot.onText(/\/start/, (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(chatId, 'Welcome to Server Info Bot! Click the button below to get server info:', menu);
+});
+
+// Listen for /info command
+bot.onText(/\/info/, (msg) => {
+    const chatId = msg.chat.id;
+    sendServerInfo(chatId);
+});
+
+// Listen for "LED ON" button click
+bot.onText(/LED ON/, (msg) => {
+    const chatId = msg.chat.id;
+    turnOffLED(chatId);
+});
+
+bot.onText(/LED OFF/, (msg) => {
+    const chatId = msg.chat.id;
+    turnOnLED(chatId);
+});
+// Listen for messages
+bot.on('message', (msg) => {
+    const chatId = msg.chat.id;
+    // You can add more commands or logic here
+    bot.sendMessage(chatId, 'Loading...', menu);
+});
+
+console.log('Bot is running...');
