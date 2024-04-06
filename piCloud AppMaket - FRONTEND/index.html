@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppMaket</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://oauth-hvh.web.app/cdn/auth.js"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Electrolize&family=Kanit:ital,wght@0,200;0,400;0,500;1,200;1,400;1,500&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="sideDraw">
+        <div class="componentDrawer">
+            <div class="header">
+                <p>App<b>Maket</b></p>
+            </div>
+            <div class="componentList">
+                <div class="component" draggable="true" id="genericToggle">
+                    <div class="icon">
+                        <span class="material-symbols-outlined">toggle_on</span>
+                    </div>
+                    <div class="text">
+                        <p>Toggle</p>
+                    </div>
+                </div>
+                <div class="component" draggable="true" id="genericScale">
+                    <div class="icon">
+                        <span class="material-symbols-outlined">
+                            linear_scale
+                            </span>
+                    </div>
+                    <div class="text">
+                        <p>Slider</p>
+                    </div>
+                </div>
+                <div class="component" draggable="true" id="genericText">
+                    <div class="icon">
+                        <span class="material-symbols-outlined">
+                            text_fields
+                            </span>
+                    </div>
+                    <div class="text">
+                        <p>Text</p>
+                    </div>
+                </div>
+                <div class="component" draggable="true" id="genericMeter">
+                    <div class="icon">
+                        <span class="material-symbols-outlined">
+                            device_thermostat
+                            </span>
+                    </div>
+                    <div class="text">
+                        <p>Custom Meter</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="componentProperties">
+            </div>
+
+    </div>
+    <div class="mainScreen">
+        <div class="header">
+            </div>
+
+            <div class="canvas" id="scre">
+                <div class="screen" id="screen">
+                    
+                </div>
+
+            </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="maket.js"></script>
+</body>
+</html>
