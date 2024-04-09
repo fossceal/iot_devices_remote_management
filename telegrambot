@@ -10,9 +10,9 @@ const bot = new TelegramBot(token, { polling: true });
 
 // Define the endpoint URLs
 const serverInfoEndpoint = 'https://server.govindsr.me/server-info';
-const ledOnEndpoint = 'https://esp.govindsr.me/ledoff';
-const ledOffEndpoint = 'https://esp.govindsr.me/ledon';
-
+const ledOffEndpoint = 'https://esp.govindsr.me/ledoff';
+const ledOnEndpoint = 'https://esp.govindsr.me/ledon';
+const sendchat = 'https://esp.govindsr.me/handle_msg?message=';
 
 // Function to fetch data from the API
 async function fetchData(url) {
@@ -49,7 +49,7 @@ async function sendServerInfo(chatId) {
 }
 
 // Function to turn off the LED
-async function turnOnLED(chatId) {
+async function turnOffLED(chatId) {
     try {
         await axios.get(ledOffEndpoint);
         bot.sendMessage(chatId, 'LED turned off successfully.');
@@ -58,7 +58,7 @@ async function turnOnLED(chatId) {
         bot.sendMessage(chatId, 'Failed to turn off LED. Please try again later.');
     }
 }
-async function turnOffLED(chatId) {
+async function turnOnLED(chatId) {
     try {
         await axios.get(ledOnEndpoint);
         bot.sendMessage(chatId, 'LED turned On successfully.');
@@ -67,10 +67,24 @@ async function turnOffLED(chatId) {
         bot.sendMessage(chatId, 'Failed to turn On LED. Please try again later.');
     }
 }
+
+// Function to send message
+// Function to send message
+async function sendMsg(chatId, text) {
+    try {
+        const encodedText = encodeURIComponent(text);
+        const sendchatUrl = `${sendchat}${encodedText}`;
+        await axios.get(sendchatUrl);
+        bot.sendMessage(chatId, `Message "${text}" sent successfully.`);
+    } catch (error) {
+        console.error('Error sending message:', error);
+        bot.sendMessage(chatId, 'Failed to send message. Please try again later.');
+    }
+}
 // Create custom keyboards
 const menu = {
     reply_markup: {
-        keyboard: [['/info'], ['LED ON'], ['LED OFF']], // Updated menu with LED ON button
+        keyboard: [['/info'], ['LED ON'], ['LED OFF'], ['/send']], // Updated menu with LED ON button
         resize_keyboard: true,
         one_time_keyboard: false
     }
@@ -87,6 +101,13 @@ bot.onText(/\/info/, (msg) => {
     const chatId = msg.chat.id;
     sendServerInfo(chatId);
 });
+
+bot.onText(/\/send (.+)/, (msg, match) => {
+    const chatId = msg.chat.id;
+    const textToSend = match[1]; // Extracting text to send from the command
+    sendMsg(chatId, textToSend);
+});
+
 
 // Listen for "LED ON" button click
 bot.onText(/LED ON/, (msg) => {
